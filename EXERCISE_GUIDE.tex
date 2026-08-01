@@ -1,0 +1,1056 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+
+\geometry{margin=1in}
+
+\definecolor{codebg}{rgb}{0.95,0.95,0.95}
+\definecolor{codeframe}{rgb}{0.8,0.8,0.8}
+
+\lstdefinestyle{mermaidstyle}{
+  backgroundcolor=\color{codebg},
+  frame=single,
+  rulecolor=\color{codeframe},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  xleftmargin=10pt,
+  xrightmargin=10pt,
+  columns=fullflexible,
+  literate={ñ}{{\~n}}1 {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+}
+
+\title{Guía de Práctica de los Ejercicios}
+\author{Francisco García}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Introducción}
+% ============================================================
+
+Esta guía ha sido creada para acompañar los ejercicios de \textit{Program Flow for Beginners} de 4Geeks Academy. A lo largo de diez ejercicios prácticos, aprenderás los fundamentos del flujo de programas usando diagramas Mermaid.
+
+No necesitas saber programar para comenzar. Cada concepto se explica desde cero con ejemplos cotidianos.
+
+\subsection{¿Qué es un diagrama de flujo?}
+
+Un diagrama de flujo es un dibujo que muestra los pasos que sigue un programa, en el orden correcto. Es como una receta de cocina: primero haces una cosa, luego otra, y al final obtienes un resultado.
+
+En este curso usamos Mermaid, una herramienta que permite escribir diagramas de flujo usando texto. Así:
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[inicio] --> B[hervir agua]
+    B --> C[preparar cafe]
+    C --> D[fin]
+\end{lstlisting}
+
+\subsection{Conceptos clave}
+
+\begin{itemize}
+    \item \textbf{Nodo}: Cada caja o figura en el diagrama (por ejemplo: inicio, hervir agua, fin).
+    \item \textbf{Flecha (edge)}: La línea que conecta dos nodos y muestra la dirección del flujo.
+    \item \textbf{Condición}: Una etiqueta sobre una flecha que indica cuándo se sigue ese camino (sí/no, válido/inválido).
+    \item \textbf{Bucle}: Un camino que vuelve hacia atrás para repetir pasos.
+\end{itemize}
+
+\newpage
+
+% ============================================================
+\section{Secuencia Lineal (Ejercicio 01)}
+% ============================================================
+
+\subsection{Definición}
+
+Una \textbf{secuencia lineal} es una serie de pasos que se ejecutan uno después del otro, sin decisiones ni repeticiones. El flujo va siempre hacia adelante.
+
+\subsection{Analogía cotidiana}
+
+Preparar café por la mañana: entras a la cocina, pones agua a hervir, preparas el café, lo sirves y luego terminas. No hay decisiones que tomar, solo una secuencia fija de acciones.
+
+\subsection{Sintaxis general}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[inicio] --> B[paso 1]
+    B --> C[paso 2]
+    C --> D[fin]
+\end{lstlisting}
+
+\subsection{Cómo apareció en los ejercicios}
+
+En el ejercicio 01, el escenario era preparar café antes de clases. Debíamos crear un flujo lineal con cuatro nodos usando las letras A, B, C, D.
+
+\subsection{Explicación paso a paso}
+
+\begin{enumerate}
+    \item Identificamos el punto de partida: \texttt{A[start]}.
+    \item Agregamos el primer paso: hervir agua (\texttt{B[boil water]}).
+    \item Agregamos el segundo paso: preparar café (\texttt{C[brew coffee]}).
+    \item Conectamos al final: \texttt{D[end]}.
+    \item Cada nodo se conecta con una flecha (\texttt{-->}).
+\end{enumerate}
+
+\subsection{Errores comunes}
+
+\begin{itemize}
+    \item Olvidar el nodo de inicio o fin.
+    \item Poner menos de 3 flechas (el mínimo requerido por el test).
+    \item Incluir palabras prohibidas como \texttt{while} o \texttt{for} (errores comunes).
+\end{itemize}
+
+\subsection{Nuevo ejercicio práctico}
+
+\textbf{Enunciado}: Dibuja el flujo para preparar un sándwich. Empieza, toma dos rebanadas de pan, agrega jamón y queso, cierra el sándwich, y termina.
+
+\subsection{Pista útil}
+
+Usa 5 nodos (A, B, C, D, E) con 4 flechas. No uses condiciones ni decisiones, solo pasos seguidos.
+
+\subsection{Solución completa}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[tomar pan]
+    B --> C[agregar jamon]
+    C --> D[agregar queso]
+    D --> E[end]
+\end{lstlisting}
+
+\subsection{Preguntas de repaso}
+
+\begin{enumerate}
+    \item ¿Qué simboliza una flecha en un diagrama de flujo?
+    \item ¿Cuántas flechas debe tener como mínimo un flujo lineal en estos ejercicios?
+    \item ¿Por qué no se permiten las palabras \texttt{while} y \texttt{for} en este ejercicio?
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+\section{Decisión con If-Else (Ejercicio 02)}
+% ============================================================
+
+\subsection{Definición}
+
+Una \textbf{decisión if-else} permite que el programa tome un camino u otro dependiendo de una condición. Es como una bifurcación en el camino.
+
+\subsection{Analogía cotidiana}
+
+En una fiesta, revisan tu edad: si tienes 18 o más, puedes beber alcohol; si no, no puedes. La misma pregunta lleva a dos resultados distintos.
+
+\subsection{Sintaxis general}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input]
+    B --> C{condicion}
+    C --|yes|--> D[opcion verdadera]
+    C --|no|--> E[opcion falsa]
+    D --> F[end]
+    E --> F
+\end{lstlisting}
+
+Observa que el nodo de condición usa llaves \texttt{\{\}} y las etiquetas usan \texttt{--|etiqueta|-->}.
+
+\subsection{Cómo apareció en los ejercicios}
+
+Escenario: control de edad en una fiesta. El flujo preguntaba ``¿edad >= 18?''. Si la respuesta era \texttt{yes}, la persona podía beber; si era \texttt{no}, se le negaba el permiso. Ambos caminos llevaban al final.
+
+\subsection{Explicación paso a paso}
+
+\begin{enumerate}
+    \item Inicio: \texttt{A[start]}.
+    \item Entrada de datos: \texttt{B[input age]}.
+    \item Decisión: \texttt{C\{age >= 18?\}} (nodo con forma de rombo).
+    \item Rama verdadera (\texttt{yes}): va a \texttt{D[valid]}.
+    \item Rama falsa (\texttt{no}): va a \texttt{E[invalid]}.
+    \item Ambas ramas se unen en \texttt{F[end]}.
+\end{enumerate}
+
+\subsection{Errores comunes}
+
+\begin{itemize}
+    \item Usar el nodo de decisión con forma incorrecta (debe ser \texttt{\{\}}).
+    \item No etiquetar las flechas con \texttt{yes} y \texttt{no}.
+    \item No unir ambas ramas al mismo nodo final.
+    \item Poner menos de 6 flechas (mínimo requerido).
+\end{itemize}
+
+\subsection{Nuevo ejercicio práctico}
+
+\textbf{Enunciado}: Una tienda ofrece descuento a clientes mayores de 60 años. Crea un flujo que pida la edad, verifique si es mayor de 60, muestre ``descuento aplicado'' o ``sin descuento'', y termine.
+
+\subsection{Pista útil}
+
+Necesitas 6 flechas. El nodo de decisión debe tener dos salidas: una con \texttt{yes} y otra con \texttt{no}. Ambas deben conectar al final.
+
+\subsection{Solución completa}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input age]
+    B --> C{age > 60?}
+    C --|yes|--> D[valid - descuento]
+    C --|no|--> E[invalid - sin descuento]
+    D --> F[end]
+    E --> F
+\end{lstlisting}
+
+\subsection{Preguntas de repaso}
+
+\begin{enumerate}
+    \item ¿Qué forma tiene un nodo de decisión en Mermaid?
+    \item ¿Qué significan las etiquetas \texttt{yes} y \texttt{no} en las flechas?
+    \item ¿Por qué ambas ramas deben conectar al mismo nodo final?
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+\section{Decisiones Anidadas (Ejercicio 03)}
+% ============================================================
+
+\subsection{Definición}
+
+Una \textbf{decisión anidada} ocurre cuando dentro de una decisión hay otra decisión. Es decir, después de responder una pregunta, aparece otra pregunta antes de llegar al resultado final.
+
+\subsection{Analogía cotidiana}
+
+Para rentar un auto: primero verifican si tienes 21 años o más. Si cumples, luego verifican si tienes licencia de conducir válida. Si no cumples la primera condición, ya no preguntan más.
+
+\subsection{Sintaxis general}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input]
+    B --> C{condicion 1}
+    C --|yes|--> D{condicion 2}
+    C --|no|--> F[fin alternativo]
+    D --|yes|--> E[exito]
+    D --|no|--> F
+    E --> F
+\end{lstlisting}
+
+\subsection{Cómo apareció en los ejercicios}
+
+Escenario: alquiler de auto. Primero se pregunta si la persona tiene 21+ años. Si sí, se pregunta si tiene licencia válida. Si cumple ambas, puede alquilar (\texttt{home}). Si falla cualquiera, no puede alquilar y termina.
+
+\subsection{Explicación paso a paso}
+
+\begin{enumerate}
+    \item Inicio: \texttt{A[start]}.
+    \item Entrada: \texttt{B[input]}.
+    \item Primera decisión: ¿edad >= 21? (\texttt{C}).
+    \item Si es \texttt{yes}: va a segunda decisión: ¿tiene licencia? (\texttt{D}).
+    \item Si es \texttt{no}: va directamente al final (\texttt{F}).
+    \item Segunda decisión: si \texttt{yes} va a \texttt{E[home]}, si \texttt{no} va a \texttt{F}.
+    \item Desde \texttt{E} también se va a \texttt{F}.
+\end{enumerate}
+
+\subsection{Errores comunes}
+
+\begin{itemize}
+    \item Confundir el orden de las condiciones (edad primero, licencia después).
+    \item Olvidar que la rama \texttt{no} de la primera decisión debe saltarse la segunda decisión.
+    \item Tener menos de 7 flechas.
+\end{itemize}
+
+\subsection{Nuevo ejercicio práctico}
+
+\textbf{Enunciado}: Un estudiante puede entrar a un curso si tiene 16+ años Y si pagó la matrícula. Crea el flujo con dos decisiones anidadas.
+
+\subsection{Pista útil}
+
+Primero verifica la edad. Solo si cumple, verifica el pago. El ``no'' de la primera decisión va directo al final.
+
+\subsection{Solución completa}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input]
+    B --> C{edad >= 16?}
+    C --|yes|--> D{pago realizado?}
+    C --|no|--> F[end]
+    D --|yes|--> E[home - inscrito]
+    D --|no|--> F
+    E --> F
+\end{lstlisting}
+
+\subsection{Preguntas de repaso}
+
+\begin{enumerate}
+    \item ¿Qué significa que una decisión esté ``anidada''?
+    \item ¿Qué ocurre si la primera condición es falsa? ¿Se evalúa la segunda?
+    \item ¿Cuántos caminos distintos existen en dos decisiones anidadas?
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+\section{Múltiples Ramas (Ejercicio 04)}
+% ============================================================
+
+\subsection{Definición}
+
+Un flujo con \textbf{múltiples ramas} tiene una decisión que puede llevar a más de dos caminos distintos, aunque en la práctica usamos varias decisiones o una sola decisión con dos caminos que no se vuelven a unir inmediatamente.
+
+\subsection{Analogía cotidiana}
+
+Un semáforo: si está verde, avanzas; si está amarillo, reduces la velocidad; si está rojo, te detienes. Cada color lleva a una acción diferente.
+
+\subsection{Sintaxis general}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input]
+    B --|si|--> C[opcion 1]
+    B --|no|--> D[opcion 2]
+    C --> E[continuar]
+\end{lstlisting}
+
+\subsection{Cómo apareció en los ejercicios}
+
+Escenario: control de semáforo. Dependiendo del color de la luz (verde, amarillo, rojo), se elegía la acción correspondiente. Las condiciones usaban \texttt{yes} y \texttt{no}.
+
+\subsection{Explicación paso a paso}
+
+\begin{enumerate}
+    \item Inicio: \texttt{A[start]}.
+    \item Entrada del color: \texttt{B[input]}.
+    \item Decisión con dos ramas: \texttt{yes} va a \texttt{C[home]}, \texttt{no} va a \texttt{D[output]}.
+    \item Desde \texttt{C} se continúa a \texttt{E[end]}.
+\end{enumerate}
+
+\subsection{Errores comunes}
+
+\begin{itemize}
+    \item No incluir el nodo \texttt{output} cuando se requiere.
+    \item Tener menos de 4 flechas.
+    \item No etiquetar correctamente las ramas.
+\end{itemize}
+
+\subsection{Nuevo ejercicio práctico}
+
+\textbf{Enunciado}: Un robot clasifica objetos. Si el objeto es metálico, va al contenedor A. Si no, va al contenedor B. Dibuja el flujo.
+
+\subsection{Pista útil}
+
+El nodo \texttt{input} recibe el dato. Usa dos ramas desde la decisión. Mínimo 4 flechas.
+
+\subsection{Solución completa}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input]
+    B --|yes|--> C[home - contenedor A]
+    B --|no|--> D[output - contenedor B]
+    C --> E[end]
+\end{lstlisting}
+
+\subsection{Preguntas de repaso}
+
+\begin{enumerate}
+    \item ¿Cuántas ramas puede tener una decisión simple?
+    \item ¿Qué etiquetas se usan normalmente para las ramas?
+    \item ¿Todos los caminos deben llevar al final?
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+\section{Bucle While (Ejercicio 05)}
+% ============================================================
+
+\subsection{Definición}
+
+Un \textbf{bucle while} repite un bloque de código mientras una condición sea verdadera. Cuando la condición se vuelve falsa, el bucle termina y el flujo continúa.
+
+\subsection{Analogía cotidiana}
+
+Ingresar la contraseña en el celular: mientras la contraseña sea incorrecta, sigues intentando. Cuando es correcta, entras al teléfono.
+
+\subsection{Sintaxis general}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input]
+    B --> C{condicion}
+    C --|yes|--> D[fin]
+    C --|no|--> B
+\end{lstlisting}
+
+Observa que la flecha \texttt{no} vuelve hacia atrás al nodo \texttt{B}, creando un ciclo.
+
+\subsection{Cómo apareció en los ejercicios}
+
+Escenario: inicio de sesión con contraseña. Se pedía la contraseña repetidamente mientras fuera incorrecta. Cuando era correcta, se concedía acceso.
+
+\subsection{Explicación paso a paso}
+
+\begin{enumerate}
+    \item Inicio: \texttt{A[start]}.
+    \item Pedir contraseña: \texttt{B[input]}.
+    \item Verificar: \texttt{C\{correct?\}}.
+    \item Si es \texttt{yes} (correcta): va a \texttt{D[end]}.
+    \item Si es \texttt{no} (incorrecta): vuelve a \texttt{B} para pedir otra vez.
+\end{enumerate}
+
+\subsection{Errores comunes}
+
+\begin{itemize}
+    \item No cerrar el ciclo (la flecha de retorno).
+    \item Usar la palabra prohibida \texttt{for} en el diagrama.
+    \item Tener menos de 4 flechas.
+    \item Confundir la dirección del ciclo (debe volver al paso de entrada).
+\end{itemize}
+
+\subsection{Nuevo ejercicio práctico}
+
+\textbf{Enunciado}: Un cajero automático pide el PIN. Mientras el PIN sea incorrecto, lo sigue pidiendo. Cuando es correcto, muestra ``acceso concedido'' y termina.
+
+\subsection{Pista útil}
+
+El nodo de condición debe tener una flecha que regrese al nodo de entrada. La etiqueta \texttt{no} va en la flecha de retorno.
+
+\subsection{Solución completa}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input PIN]
+    B --> C{PIN correcto?}
+    C --|yes|--> D[acceso concedido]
+    D --> E[end]
+    C --|no|--> B
+\end{lstlisting}
+
+\subsection{Preguntas de repaso}
+
+\begin{enumerate}
+    \item ¿Qué hace que un bucle while termine?
+    \item ¿Por qué la flecha de retorno va al nodo de entrada y no al de inicio?
+    \item ¿Cuál es la diferencia entre un bucle y una secuencia lineal?
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+\section{Bucle For (Ejercicio 06)}
+% ============================================================
+
+\subsection{Definición}
+
+Un \textbf{bucle for} repite un bloque un número determinado de veces. A diferencia del while, aquí sabemos de antemano cuántas repeticiones se harán.
+
+\subsection{Analogía cotidiana}
+
+Corregir 5 exámenes: revisas el examen 1, luego el 2, luego el 3, luego el 4, luego el 5. Sabes exactamente cuántos hay.
+
+\subsection{Sintaxis general}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input]
+    B --> C{mas elementos?}
+    C --|yes|--> D[procesar]
+    D --> C
+    C --|no|--> E[end]
+\end{lstlisting}
+
+\subsection{Cómo apareció en los ejercicios}
+
+Escenario: calificar 5 tareas. Se procesaba cada tarea una por una, luego se mostraba un resumen y se terminaba.
+
+\subsection{Explicación paso a paso}
+
+\begin{enumerate}
+    \item Inicio: \texttt{A[start]}.
+    \item Entrada: \texttt{B[input]}.
+    \item Pregunta: ¿hay más? (\texttt{C\{more?\}}).
+    \item Si \texttt{yes}: procesa la tarea (\texttt{D[output]}) y vuelve a preguntar.
+    \item Si \texttt{no}: va al final (\texttt{E[end]}).
+\end{enumerate}
+
+\subsection{Errores comunes}
+
+\begin{itemize}
+    \item No incluir el nodo \texttt{output}.
+    \item Tener menos de 5 flechas.
+    \item Que la flecha de retorno no vaya al nodo de condición.
+\end{itemize}
+
+\subsection{Nuevo ejercicio práctico}
+
+\textbf{Enunciado}: Una maestra tiene 3 trabajos para revisar. Crea un flujo que procese cada trabajo y luego muestre ``revisión completa''.
+
+\subsection{Pista útil}
+
+La flecha \texttt{yes} va de la condición al procesamiento. La flecha de retorno va del procesamiento de vuelta a la condición.
+
+\subsection{Solución completa}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input]
+    B --> C{mas trabajos?}
+    C --|yes|--> D[revisar trabajo]
+    D --> C
+    C --|no|--> E[output - revision completa]
+    E --> F[end]
+\end{lstlisting}
+
+\subsection{Preguntas de repaso}
+
+\begin{enumerate}
+    \item ¿Qué diferencia al bucle for del bucle while?
+    \item ¿Hacia dónde regresa el flujo después de procesar un elemento?
+    \item ¿Cuántas flechas se necesitan como mínimo?
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+\section{Validación de Entrada (Ejercicio 07)}
+% ============================================================
+
+\subsection{Definición}
+
+La \textbf{validación de entrada} verifica que los datos ingresados por el usuario tengan el formato correcto. Si son inválidos, se pide el dato nuevamente.
+
+\subsection{Analogía cotidiana}
+
+Cuando te registras en un sitio web y piden tu correo electrónico. Si escribes algo sin ``@'', el sistema dice ``correo inválido'' y te pide que lo intentes de nuevo.
+
+\subsection{Sintaxis general}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input]
+    B --> C{valido?}
+    C --|valid|--> E[end]
+    C --|invalid|--> D[incorrecto]
+    D --> B
+\end{lstlisting}
+
+\subsection{Cómo apareció en los ejercicios}
+
+Escenario: registro de usuario con correo electrónico. Se pedía el email, se validaba el formato. Si era válido, se continuaba. Si era inválido, se pedía de nuevo.
+
+\subsection{Explicación paso a paso}
+
+\begin{enumerate}
+    \item Inicio: \texttt{A[start]}.
+    \item Pedir email: \texttt{B[input]}.
+    \item Validar formato: \texttt{C\{valid?\}}.
+    \item Si es \texttt{valid}: va a \texttt{E[end]}.
+    \item Si es \texttt{invalid}: va a \texttt{D[invalid]}, que vuelve a \texttt{B}.
+\end{enumerate}
+
+\subsection{Errores comunes}
+
+\begin{itemize}
+    \item Usar \texttt{yes/no} en lugar de \texttt{valid/invalid}.
+    \item No incluir el nodo \texttt{invalid} antes del retorno.
+    \item Olvidar la flecha de retorno.
+\end{itemize}
+
+\subsection{Nuevo ejercicio práctico}
+
+\textbf{Enunciado}: Un sistema pide un número de teléfono de 10 dígitos. Si no tiene 10 dígitos, lo pide de nuevo. Si tiene 10 dígitos, continúa y termina.
+
+\subsection{Pista útil}
+
+Usa las etiquetas \texttt{valid} e \texttt{invalid} (no \texttt{yes} y \texttt{no}). Mínimo 5 flechas.
+
+\subsection{Solución completa}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input telefono]
+    B --> C{10 digitos?}
+    C --|valid|--> E[end]
+    C --|invalid|--> D[intentar de nuevo]
+    D --> B
+\end{lstlisting}
+
+\subsection{Preguntas de repaso}
+
+\begin{enumerate}
+    \item ¿Qué etiquetas se usan en este tipo de ejercicio en lugar de yes/no?
+    \item ¿Hacia dónde va la flecha \texttt{invalid}?
+    \item ¿Por qué es importante validar la entrada del usuario?
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+\section{Patrón Acumulador (Ejercicio 08)}
+% ============================================================
+
+\subsection{Definición}
+
+El \textbf{patrón acumulador} suma o recolecta valores dentro de un bucle. Cada vez que el bucle se repite, se agrega un nuevo valor a un total.
+
+\subsection{Analogía cotidiana}
+
+Ir al supermercado con un carrito: cada vez que agregas un producto, el total en la caja registradora aumenta. Al final, ves el total y pagas.
+
+\subsection{Sintaxis general}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input]
+    B --> C{mas?}
+    C --|yes|--> B
+    C --|no|--> D[output total]
+    D --> E[end]
+\end{lstlisting}
+
+\subsection{Cómo apareció en los ejercicios}
+
+Escenario: carrito de compras. Se leían precios de artículos repetidamente, se acumulaba el total, y cuando el usuario dejaba de agregar, se mostraba el total.
+
+\subsection{Explicación paso a paso}
+
+\begin{enumerate}
+    \item Inicio: \texttt{A[start]}.
+    \item Ingresar precio: \texttt{B[input]}.
+    \item Preguntar si hay más: \texttt{C\{more?\}}.
+    \item Si \texttt{yes}: vuelve a \texttt{B} para otro precio.
+    \item Si \texttt{no}: muestra total (\texttt{D[output]}) y termina (\texttt{E[end]}).
+\end{enumerate}
+
+\subsection{Errores comunes}
+
+\begin{itemize}
+    \item Poner el nodo \texttt{output} antes del bucle.
+    \item No incluir la flecha de retorno del \texttt{yes}.
+    \item Tener menos de 5 flechas.
+\end{itemize}
+
+\subsection{Nuevo ejercicio práctico}
+
+\textbf{Enunciado}: Una hucha recibe monedas. Mientras quieras agregar, ingresa el valor. Cuando decidas parar, muestra el total ahorrado.
+
+\subsection{Pista útil}
+
+La flecha \texttt{yes} regresa al nodo de entrada. La flecha \texttt{no} va al nodo de salida.
+
+\subsection{Solución completa}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[ingresar moneda]
+    B --> C{mas monedas?}
+    C --|yes|--> B
+    C --|no|--> D[mostrar total]
+    D --> E[end]
+\end{lstlisting}
+
+\subsection{Preguntas de repaso}
+
+\begin{enumerate}
+    \item ¿Qué significa ``acumular'' en programación?
+    \item ¿Hacia dónde regresa el flujo cuando hay más elementos?
+    \item ¿Cuándo se muestra el total acumulado?
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+\section{Flujo con Estado (Ejercicio 09)}
+% ============================================================
+
+\subsection{Definición}
+
+Un \textbf{flujo con estado} cambia su comportamiento dependiendo del estado actual del sistema. El mismo evento puede tener distintos efectos según el estado.
+
+\subsection{Analogía cotidiana}
+
+Un torniquete del metro: si está bloqueado y metes una moneda, se desbloquea. Si está desbloqueado y empujas, pasas. La misma acción (empujar) tiene efecto diferente según el estado.
+
+\subsection{Sintaxis general}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input]
+    B --> C{valido?}
+    C --|yes|--> B
+    C --|no|--> D[output]
+    D --> E[end]
+\end{lstlisting}
+
+\subsection{Cómo apareció en los ejercicios}
+
+Escenario: torniquete. Comenzaba bloqueado, procesaba eventos (moneda/empujar), actualizaba el estado, y permitía el paso solo en transiciones válidas.
+
+\subsection{Explicación paso a paso}
+
+\begin{enumerate}
+    \item Inicio: \texttt{A[start]}.
+    \item Recibir evento: \texttt{B[input]}.
+    \item Validar transición: \texttt{C\{valid?\}}.
+    \item Si \texttt{yes}: la transición es válida, vuelve a esperar otro evento.
+    \item Si \texttt{no}: la transición no es válida, va a \texttt{D[output]} y termina.
+\end{enumerate}
+
+\subsection{Errores comunes}
+
+\begin{itemize}
+    \item No incluir el ciclo de retorno para eventos válidos.
+    \item Confundir las etiquetas \texttt{yes}/\texttt{no} con \texttt{valid}/\texttt{invalid}.
+\end{itemize}
+
+\subsection{Nuevo ejercicio práctico}
+
+\textbf{Enunciado}: Una lámpara tiene dos estados: apagada y encendida. Si está apagada y presionas el botón, se enciende. Si está encendida y presionas, se apaga.
+
+\subsection{Pista útil}
+
+El flujo debe permitir cambios de estado cíclicos. Usa un nodo de condición para verificar el estado actual.
+
+\subsection{Solución completa}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input]
+    B --> C{encendida?}
+    C --|yes|--> D[apagar]
+    D --> B
+    C --|no|--> E[encender]
+    E --> B
+\end{lstlisting}
+
+\subsection{Preguntas de repaso}
+
+\begin{enumerate}
+    \item ¿Qué es un ``estado'' en un programa?
+    \item ¿Cómo cambia el estado en un flujo?
+    \item ¿Puede un mismo evento tener efectos diferentes?
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+\section{Flujo Integrado (Ejercicio 10)}
+% ============================================================
+
+\subsection{Definición}
+
+Un \textbf{flujo integrado} combina múltiples conceptos: decisiones, bucles, validaciones y acumulación, todo en un solo diagrama.
+
+\subsection{Analogía cotidiana}
+
+Una máquina expendedora: primero verificas que el producto existe (válido o inválido), si es inválido vuelves a elegir, si es válido verificas el pago, y finalmente dispensas el producto.
+
+\subsection{Sintaxis general}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input]
+    B --|valid|--> C[home]
+    B --|invalid|--> D
+    C --|yes|--> E[output]
+    D --|no|--> B
+    E --> F
+    F --> G[end]
+\end{lstlisting}
+
+\subsection{Cómo apareció en los ejercicios}
+
+Escenario: máquina expendedora. Se validaba la selección, se manejaba el bucle de entrada inválida, se verificaba el pago, se dispensaba el producto y se completaba el flujo.
+
+\subsection{Explicación paso a paso}
+
+\begin{enumerate}
+    \item Inicio: \texttt{A[start]}.
+    \item Entrada de selección: \texttt{B[input]}.
+    \item Si es \texttt{valid}: va a \texttt{C[home]} (procesar selección).
+    \item Si es \texttt{invalid}: va a \texttt{D} y vuelve a \texttt{B}.
+    \item Desde \texttt{C}: si \texttt{yes} va a \texttt{E[output]}.
+    \item Luego continúa a \texttt{F} y \texttt{G[end]}.
+\end{enumerate}
+
+\subsection{Errores comunes}
+
+\begin{itemize}
+    \item Mezclar las etiquetas (usar \texttt{yes/no} donde se espera \texttt{valid/invalid} y viceversa).
+    \item Tener menos de 7 flechas.
+    \item No cerrar correctamente todos los caminos.
+\end{itemize}
+
+\subsection{Nuevo ejercicio práctico}
+
+\textbf{Enunciado}: Un cajero automático. Pide la tarjeta. Si es inválida, la rechaza y termina. Si es válida, pide el PIN. Si el PIN es incorrecto, lo pide de nuevo. Si es correcto, muestra el menú y termina.
+
+\subsection{Pista útil}
+
+Combina dos tipos de condiciones: \texttt{valid/invalid} para la tarjeta y \texttt{yes/no} para el PIN. Necesitarás al menos 7 flechas.
+
+\subsection{Solución completa}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input tarjeta]
+    B --|valid|--> C[input PIN]
+    B --|invalid|--> G[end]
+    C --|yes|--> D[menu]
+    C --|no|--> C
+    D --> E[output]
+    E --> F
+    F --> G
+\end{lstlisting}
+
+\subsection{Preguntas de repaso}
+
+\begin{enumerate}
+    \item ¿Qué tipos de condiciones se usan en este ejercicio?
+    \item ¿Cuántas flechas se requieren como mínimo?
+    \item ¿Qué conceptos anteriores se combinan aquí?
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+\section{Glosario de Términos}
+% ============================================================
+
+\begin{description}[style=nextline]
+    \item[Bucle (loop)] Parte del flujo que se repite mientras se cumple una condición.
+    \item[Ciclo] Sinónimo de bucle.
+    \item[Condición] Expresión que se evalúa como verdadera o falsa.
+    \item[Diagrama de flujo] Representación gráfica de un algoritmo.
+    \item[Edge (arista/flecha)] Conexión entre dos nodos que indica la dirección del flujo.
+    \item[Estado] Situación actual de un sistema en un momento dado.
+    \item[Flujo] Secuencia de pasos que sigue un programa.
+    \item[Mermaid] Herramienta que permite crear diagramas usando texto.
+    \item[Nodo] Elemento del diagrama (inicio, fin, acción, decisión).
+    \item[Rama] Camino alternativo que toma el flujo.
+    \item[Secuencia] Serie de pasos ejecutados en orden.
+    \item[Validación] Verificación de que los datos cumplen ciertos requisitos.
+    \item[Acumulador] Variable que suma valores repetidamente.
+\end{description}
+
+\newpage
+
+% ============================================================
+\section{Cómo Leer los Mensajes de Error}
+% ============================================================
+
+Los tests de estos ejercicios son muy específicos. Aquí te explicamos los errores más comunes:
+
+\subsection{``Missing required nodes: ...''}
+
+Significa que el validador no encontró los nodos necesarios. Por ejemplo:
+
+\begin{lstlisting}[style=mermaidstyle]
+Missing required nodes: start, end
+\end{lstlisting}
+
+\textbf{Solución}: Revisa que tu diagrama incluya los nodos \texttt{start} y \texttt{end}. Asegúrate de que estén escritos correctamente.
+
+\subsection{``Missing required edges: ...''}
+
+Faltan flechas. Por ejemplo:
+
+\begin{lstlisting}[style=mermaidstyle]
+Missing required edges: A->B, B->C, C->D
+\end{lstlisting}
+
+\textbf{Solución}: Cuenta tus flechas. Asegúrate de tener las conexiones exactas entre los nodos A, B, C y D.
+
+\subsection{``Missing required conditions: ...''}
+
+Faltan etiquetas en las flechas. Por ejemplo:
+
+\begin{lstlisting}[style=mermaidstyle]
+Missing required conditions: yes, no
+\end{lstlisting}
+
+\textbf{Solución}: Revisa que tus flechas tengan las etiquetas correctas: \texttt{--|yes|-->}, \texttt{--|no|-->}.
+
+\subsection{``Forbidden patterns detected: ...''}
+
+Usaste palabras prohibidas. Por ejemplo:
+
+\begin{lstlisting}[style=mermaidstyle]
+Forbidden patterns detected: while, for
+\end{lstlisting}
+
+\textbf{Solución}: Revisa el texto de tu diagrama y elimina esas palabras. Son ejercicios específicos donde no deben aparecer.
+
+\subsection{``Expected at least X edges but found Y''}
+
+Tienes menos flechas de las necesarias.
+
+\textbf{Solución}: Agrega más pasos intermedios a tu flujo.
+
+\newpage
+
+% ============================================================
+\section{Cómo Funcionan los Tests}
+% ============================================================
+
+\subsection{El archivo rubric.json}
+
+Cada ejercicio tiene un archivo \texttt{rubric.json} que define qué debe validar el test. Contiene:
+
+\begin{itemize}
+    \item \texttt{required\_nodes}: Los nodos que deben existir (start, end, input, etc.).
+    \item \texttt{required\_edges}: Las conexiones exactas entre nodos (A→B, B→C, etc.).
+    \item \texttt{required\_conditions}: Las etiquetas que deben aparecer (yes, no, valid, invalid).
+    \item \texttt{forbidden\_patterns}: Palabras que no deben aparecer.
+    \item \texttt{min\_steps}: Número mínimo de flechas.
+\end{itemize}
+
+\subsection{Cómo funciona el validador}
+
+\begin{enumerate}
+    \item Lee tu archivo \texttt{app.js} y extrae el diagrama Mermaid.
+    \item Analiza todas las flechas y sus etiquetas.
+    \item Compara con las reglas del \texttt{rubric.json}.
+    \item Si todo coincide, el test pasa. Si algo falta, reporta el error.
+\end{enumerate}
+
+\subsection{Modo language\_independent}
+
+Si \texttt{language\_independent} es \texttt{true} (valor por defecto), el validador es más flexible con los nombres de los nodos. Solo verifica que haya suficientes nodos únicos, no que tengan nombres exactos. Esto te permite usar sinónimos o traducciones.
+
+\newpage
+
+% ============================================================
+\section{Desafío Final}
+% ============================================================
+
+\subsection{Enunciado}
+
+Diseña un diagrama de flujo para un \textbf{sistema de préstamo de libros en una biblioteca}.
+
+Requisitos:
+
+\begin{enumerate}
+    \item El usuario ingresa su número de membresía.
+    \item Si la membresía no es válida (no existe), se muestra error y termina.
+    \item Si es válida, se pregunta qué libro quiere.
+    \item Si el libro no está disponible, se informa y se permite elegir otro.
+    \item Si está disponible, se registra el préstamo.
+    \item Se muestra un comprobante.
+    \item Termina.
+\end{enumerate}
+
+Debe combinar: validación de entrada, decisiones, bucles, y múltiples condiciones.
+
+\subsection{Pistas}
+
+\begin{itemize}
+    \item Usa \texttt{valid/invalid} para la membresía.
+    \item Usa \texttt{yes/no} para la disponibilidad del libro.
+    \item Debes tener al menos 8 flechas.
+    \item Incluye los nodos: start, input, valid, invalid, home, output, end.
+\end{itemize}
+
+\subsection{Solución completa}
+
+\begin{lstlisting}[style=mermaidstyle]
+flowchart TD
+    A[start] --> B[input membresia]
+    B --|valid|--> C[input libro]
+    B --|invalid|--> H[end]
+    C --|yes|--> D[home - prestamo registrado]
+    C --|no|--> E[no disponible]
+    E --> C
+    D --> F[output comprobante]
+    F --> G
+    G --> H
+\end{lstlisting}
+
+\subsection{Preguntas de reflexión}
+
+\begin{enumerate}
+    \item ¿Cuántos caminos diferentes puede tomar este flujo?
+    \item ¿Qué ocurre si la membresía es inválida?
+    \item ¿Cómo podrías agregar un límite de intentos para elegir libro?
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+\section{Lista de Autoevaluación}
+% ============================================================
+
+Marca con una ✓ cada concepto que domines:
+
+\begin{center}
+\begin{tabular}{|c|l|c|}
+\hline
+\textbf{Nº} & \textbf{Concepto} & \textbf{✓} \\
+\hline
+1 & Crear un diagrama de flujo lineal & \\
+2 & Usar nodos de inicio y fin & \\
+3 & Conectar nodos con flechas & \\
+4 & Crear una decisión con dos caminos & \\
+5 & Usar etiquetas yes/no en las flechas & \\
+6 & Usar etiquetas valid/invalid & \\
+7 & Anidar dos decisiones & \\
+8 & Crear un bucle while & \\
+9 & Crear un bucle for & \\
+10 & Validar entrada del usuario & \\
+11 & Acumular valores en un bucle & \\
+12 & Modelar un flujo con estado & \\
+13 & Combinar múltiples conceptos & \\
+14 & Interpretar mensajes de error & \\
+15 & Leer y entender rubric.json & \\
+\hline
+\end{tabular}
+\end{center}
+
+\newpage
+
+% ============================================================
+\section{Recomendaciones para Seguir Practicando}
+% ============================================================
+
+\subsection{Más ejercicios}
+
+\begin{enumerate}
+    \item Diseña el flujo de un juego de adivinanza de números.
+    \item Crea un diagrama para un cajero automático completo.
+    \item Modela el proceso de inscripción a un curso.
+    \item Diseña un control de inventario básico.
+    \item Crea el flujo de un semáforo inteligente.
+\end{enumerate}
+
+\subsection{Recursos adicionales}
+
+\begin{itemize}
+    \item \href{https://mermaid.js.org/}{Documentación oficial de Mermaid}
+    \item \href{https://waficmikati.github.io/mermaid/}{Editor Mermaid de Wafic Mikati}
+    \item \href{https://4geeks.com/}{4Geeks Academy}
+    \item \href{https://mermaid.ai/open-source/syntax/flowchart.html}{Guía de sintaxis de diagramas de flujo Mermaid}
+\end{itemize}
+
+\subsection{Consejos finales}
+
+\begin{itemize}
+    \item Practica cada concepto por separado antes de combinarlos.
+    \item Dibuja el flujo en papel antes de escribirlo en Mermaid.
+    \item Siempre verifica que todos los caminos lleguen al final.
+    \item Usa los errores de los tests como guía, no como obstáculo.
+    \item Explica tu diagrama a otra persona; eso ayuda a encontrar errores.
+\end{itemize}
+
+\end{document}
