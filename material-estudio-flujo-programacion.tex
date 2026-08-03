@@ -1,0 +1,703 @@
+% =============================================================================
+%  MATERIAL DE ESTUDIO: FLUJO DE PROGRAMACIÓN PARA PRINCIPIANTES
+%  Diagramas Mermaid — 10 ejercicios resueltos y explicados
+%  Compilable en Overleaf (XeLaTeX o pdfLaTeX)
+% =============================================================================
+\documentclass[10pt,a4paper]{article}
+
+% ---------------------- Paquetes básicos ------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{bookmark}
+\usepackage{xcolor}
+\usepackage{fancyvrb}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{mdframed}
+\usepackage{parskip}
+
+% ---------- Estilo para el diagrama Mermaid (textual) ----------
+\newenvironment{mermaid}[1][]
+  {%
+   \begin{mdframed}[%
+     linecolor=blue!50!black,
+     backgroundcolor=blue!3,
+     innertopmargin=6pt,
+     innerbottommargin=6pt,
+     leftmargin=0pt,
+     rightmargin=0pt,
+     skipabove=10pt,
+     skipbelow=10pt,
+     frametitle={Diagrama Mermaid},
+     frametitlefont={\small\bfseries\color{blue!70!black}},
+   ]%
+   \small\ttfamily
+  }
+  {%
+   \end{mdframed}%
+  }
+
+% --- Código JavaScript (para fragmentos de app.js) ---
+\lstdefinestyle{jsstyle}{
+  language      = Java,
+  morekeywords  = {const,let,var,module,exports},
+  basicstyle    = \small\ttfamily,
+  keywordstyle  = \color{blue!70!black},
+  stringstyle   = \color{red!60!black},
+  commentstyle  = \color{gray!50},
+  numbers       = none,
+  showstringspaces=false,
+  breaklines    = true,
+  frame         = none
+}
+
+% ---------- Portada ----------
+\title{\textbf{Flujo de Programación para Principiantes}\\[6pt]
+       \large 10 ejercicios resueltos con diagramas Mermaid}
+\author{Basado en \texttt{4GeeksAcademy/program-flow-for-beginners}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+\newpage
+
+% ==================================================================
+\section{Introducción}
+% ==================================================================
+
+Los diagramas de flujo son una herramienta visual fundamental para entender
+la lógica de un programa antes de escribirlo. En esta guía resolvemos los
+10 ejercicios del curso \emph{Program Flow for Beginners} usando la
+notación \textbf{Mermaid}, un lenguaje de marcado que permite describir
+diagramas de flujo con texto plano.
+
+Cada ejercicio presenta:
+\begin{itemize}[nosep]
+  \item El escenario del problema.
+  \item Las reglas que debe cumplir el diagrama (rúbrica).
+  \item El diagrama Mermaid resuelto.
+  \item Una explicación paso a paso.
+\end{itemize}
+
+Los archivos \texttt{app.js} contienen el diagrama dentro de una cadena
+de texto (\texttt{const answer = `...`}) que se exporta para ser validada
+automáticamente.
+
+\newpage
+
+% ==================================================================
+\section{Ejercicio 01 — Sequence Basics (Flujo Lineal)}
+% ==================================================================
+
+\textbf{Escenario:} Preparas café antes de clases. Define un flujo
+lineal: inicio, hervir agua, preparar café, servir, fin. Sin decisiones.
+
+\textbf{Reglas (rúbrica):}
+\begin{itemize}
+  \item Nodos requeridos: \texttt{start}, \texttt{end}.
+  \item Aristas requeridas: \texttt{A→B}, \texttt{B→C}, \texttt{C→D}.
+  \item Mínimo 3 aristas.
+  \item Prohibido: \texttt{while}, \texttt{for}.
+\end{itemize}
+
+\textbf{Código en \texttt{app.js}:}
+
+\begin{lstlisting}[style=jsstyle]
+const answer = `
+flowchart TD
+    A[start] --> B[step 1]
+    B --> C[step 2]
+    C --> D[end]
+`;
+module.exports = answer.trim();
+\end{lstlisting}
+
+\begin{mermaid}
+flowchart TD
+    A[start] --> B[step 1]
+    B --> C[step 2]
+    C --> D[end]
+\end{mermaid}
+
+\textbf{Explicación:}
+Es el patrón más simple: \textbf{secuencia lineal}. No hay bifurcaciones
+ni bucles. Cada paso ocurre uno después del otro, como seguir una
+receta de cocina.
+
+\begin{enumerate}
+  \item \texttt{A[start]} — punto de entrada del programa.
+  \item \texttt{B[step 1]} — primera acción (ej: hervir agua).
+  \item \texttt{C[step 2]} — segunda acción (ej: preparar café).
+  \item \texttt{D[end]} — fin del flujo.
+\end{enumerate}
+
+Los IDs (\texttt{A}, \texttt{B}, \texttt{C}, \texttt{D}) son
+obligatorios según la rúbrica. La flecha \texttt{-->} indica la
+dirección del flujo.
+
+\newpage
+
+% ==================================================================
+\section{Ejercicio 02 — If Else Basics (Decisión Binaria)}
+% ==================================================================
+
+\textbf{Escenario:} Estás en una fiesta. Una persona solo puede beber
+alcohol si tiene 18 o más. Crea el flujo para validar edad: ruta
+permitida, ruta no permitida y fin.
+
+\textbf{Reglas:}
+\begin{itemize}
+  \item Nodos: \texttt{start}, \texttt{input}, \texttt{valid},
+        \texttt{invalid}, \texttt{end}.
+  \item Aristas: \texttt{A→B}, \texttt{B→C}, \texttt{C→D},
+        \texttt{C→E}, \texttt{D→F}, \texttt{E→F}.
+  \item Condiciones: \texttt{yes}, \texttt{no}.
+  \item Mínimo 6 aristas.
+\end{itemize}
+
+\begin{lstlisting}[style=jsstyle]
+const answer = `
+flowchart TD
+    A[start] --> B[input]
+    B --> C{decision}
+    C --|yes|--> D[valid]
+    C --|no|--> E[invalid]
+    D --> F[end]
+    E --> F[end]
+`;
+module.exports = answer.trim();
+\end{lstlisting}
+
+\begin{mermaid}
+flowchart TD
+    A[start] --> B[input]
+    B --> C{decision}
+    C --|yes|--> D[valid]
+    C --|no|--> E[invalid]
+    D --> F[end]
+    E --> F[end]
+\end{mermaid}
+
+\textbf{Explicación:}
+Introducimos el primer \textbf{condicional}. El diamante \texttt{C\{decision\}}
+representa una pregunta que tiene dos respuestas posibles:
+\begin{itemize}
+  \item \texttt{yes} (edad ≥ 18) → \texttt{D[valid]} (puede beber).
+  \item \texttt{no}  (edad < 18) → \texttt{E[invalid]} (no puede).
+\end{itemize}
+Ambos caminos convergen al final (\texttt{F[end]}). Esto se llama
+\textbf{convergencia} y evita que el diagrama quede con extremos
+sueltos.
+
+\newpage
+
+% ==================================================================
+\section{Ejercicio 03 — Nested Decisions (Decisiones Anidadas)}
+% ==================================================================
+
+\textbf{Escenario:} Alquiler de auto. Solo puedes alquilar si tienes
+21+ años \textbf{y} licencia de conducir válida. Modela decisiones
+anidadas y resultados finales.
+
+\textbf{Reglas:}
+\begin{itemize}
+  \item Nodos: \texttt{start}, \texttt{input}, \texttt{valid},
+        \texttt{home}, \texttt{end}.
+  \item Aristas: \texttt{A→B}, \texttt{B→C}, \texttt{C→D},
+        \texttt{D→E}, \texttt{C→F}, \texttt{D→F}, \texttt{E→F}.
+  \item Condiciones: \texttt{yes}, \texttt{no}.
+  \item Mínimo 7 aristas.
+\end{itemize}
+
+\begin{lstlisting}[style=jsstyle]
+const answer = `
+flowchart TD
+    A[start] --> B[input]
+    B --> C{age >= 21?}
+    C --|yes|--> D{license valid?}
+    C --|no|--> F[end]
+    D --|yes|--> E[valid]
+    D --|no|--> F[end]
+    E --> F[end]
+`;
+module.exports = answer.trim();
+\end{lstlisting}
+
+\begin{mermaid}
+flowchart TD
+    A[start] --> B[input]
+    B --> C{age >= 21?}
+    C --|yes|--> D{license valid?}
+    C --|no|--> F[end]
+    D --|yes|--> E[valid]
+    D --|no|--> F[end]
+    E --> F[end]
+\end{mermaid}
+
+\textbf{Explicación:}
+Aquí una decisión está \textbf{anidada} dentro de otra. Primero se
+pregunta por la edad; solo si es suficiente se pregunta por la licencia.
+\begin{enumerate}
+  \item \texttt{C\{age >= 21?\}} — Primera condición.
+  \item Si es \texttt{no} → termina directamente.
+  \item Si es \texttt{yes} → pasa a la segunda condición
+        \texttt{D\{license valid?\}}.
+  \item Dentro de \texttt{D}: \texttt{yes} → \texttt{valid},
+        \texttt{no} → \texttt{end}.
+\end{enumerate}
+Este patrón modela condiciones compuestas con AND lógico.
+
+\newpage
+
+% ==================================================================
+\section{Ejercicio 04 — Multi Branch (Ramas Múltiples)}
+% ==================================================================
+
+\textbf{Escenario:} Control de semáforo. Según el color (verde,
+amarillo, rojo), elige la acción correspondiente y luego continúa.
+
+\textbf{Reglas:}
+\begin{itemize}
+  \item Nodos: \texttt{start}, \texttt{input}, \texttt{home},
+        \texttt{output}, \texttt{end}.
+  \item Aristas: \texttt{A→B}, \texttt{B→C}, \texttt{B→D},
+        \texttt{C→E}.
+  \item Condiciones: \texttt{yes}, \texttt{no}.
+  \item Mínimo 4 aristas.
+\end{itemize}
+
+\begin{lstlisting}[style=jsstyle]
+const answer = `
+flowchart TD
+    A[start] --> B[input]
+    B --|yes|--> C[output]
+    B --|no|--> D[home]
+    C --> E[end]
+`;
+module.exports = answer.trim();
+\end{lstlisting}
+
+\begin{mermaid}
+flowchart TD
+    A[start] --> B[input]
+    B --|yes|--> C[output]
+    B --|no|--> D[home]
+    C --> E[end]
+\end{mermaid}
+
+\textbf{Explicación:}
+A diferencia del \texttt{if-else} simple, aquí desde \texttt{B[input]}
+salen \textbf{dos aristas etiquetadas} simultáneamente. El nodo
+\texttt{B} funciona como un \texttt{switch} o decisión de múltiples
+ramas:
+\begin{itemize}
+  \item Rama \texttt{yes} → procesa (\texttt{output}) y luego termina.
+  \item Rama \texttt{no} → va a casa (\texttt{home}) — el flujo termina
+        ahí sin necesidad de llegar a \texttt{end} (aunque en la rúbrica
+        \texttt{home} es el final para esa rama).
+\end{itemize}
+La arista \texttt{D[home]} queda como nodo terminal sin salida, lo cual
+es válido en este patrón.
+
+\newpage
+
+% ==================================================================
+\section{Ejercicio 05 — Loops While (Bucle While)}
+% ==================================================================
+
+\textbf{Escenario:} Inicio de sesión con contraseña. Sigue pidiendo la
+contraseña mientras sea incorrecta; cuando sea correcta, concede acceso
+y termina.
+
+\textbf{Reglas:}
+\begin{itemize}
+  \item Nodos: \texttt{start}, \texttt{input}, \texttt{loop},
+        \texttt{end}.
+  \item Aristas: \texttt{A→B}, \texttt{B→C}, \texttt{C→B},
+        \texttt{C→D}.
+  \item Condiciones: \texttt{yes}, \texttt{no}.
+  \item Prohibido: \texttt{for}.
+  \item Mínimo 4 aristas.
+\end{itemize}
+
+\begin{lstlisting}[style=jsstyle]
+const answer = `
+flowchart TD
+    A[start] --> B[input]
+    B --> C{loop}
+    C --|no|--> B
+    C --|yes|--> D[end]
+`;
+module.exports = answer.trim();
+\end{lstlisting}
+
+\begin{mermaid}
+flowchart TD
+    A[start] --> B[input]
+    B --> C{loop}
+    C --|no|--> B
+    C --|yes|--> D[end]
+\end{mermaid}
+
+\textbf{Explicación:}
+Este es el primer \textbf{bucle} (ciclo). La flecha \texttt{C --|no|--> B}
+crea un retroceso: si la contraseña es incorrecta (\texttt{no}), el
+flujo vuelve a pedir input. Esto es la esencia de un bucle
+\texttt{while}:
+
+\begin{quote}
+Mientras (contraseña incorrecta) \{ pedir de nuevo \}
+\end{quote}
+
+\begin{itemize}
+  \item \texttt{C{loop}} evalúa la condición.
+  \item \texttt{no} → regresa a \texttt{B[input]} (reintentar).
+  \item \texttt{yes} → sale del bucle y termina.
+\end{itemize}
+
+\newpage
+
+% ==================================================================
+\section{Ejercicio 06 — Loops For (Bucle For)}
+% ==================================================================
+
+\textbf{Escenario:} Calificar 5 tareas. Itera desde la tarea 1 hasta la
+5, procesa cada una, luego muestra resumen y finaliza.
+
+\textbf{Reglas:}
+\begin{itemize}
+  \item Nodos: \texttt{start}, \texttt{input}, \texttt{loop},
+        \texttt{output}, \texttt{end}.
+  \item Aristas: \texttt{A→B}, \texttt{B→C}, \texttt{C→D},
+        \texttt{D→C}, \texttt{C→E}.
+  \item Condiciones: \texttt{yes}, \texttt{no}.
+  \item Mínimo 5 aristas.
+\end{itemize}
+
+\begin{lstlisting}[style=jsstyle]
+const answer = `
+flowchart TD
+    A[start] --> B[input]
+    B --> C{loop}
+    C --|yes|--> D[output]
+    C --|no|--> E[end]
+    D --> C
+`;
+module.exports = answer.trim();
+\end{lstlisting}
+
+\begin{mermaid}
+flowchart TD
+    A[start] --> B[input]
+    B --> C{loop}
+    C --|yes|--> D[output]
+    C --|no|--> E[end]
+    D --> C
+\end{mermaid}
+
+\textbf{Explicación:}
+Similar al while, pero la condición del bucle se evalúa de forma
+distinta:
+\begin{itemize}
+  \item \texttt{yes} → procesa la tarea actual (\texttt{output}) y
+        luego \texttt{D --> C} devuelve el flujo al bucle para la
+        siguiente iteración.
+  \item \texttt{no} → todas las tareas están procesadas, sale del
+        bucle y termina.
+\end{itemize}
+
+Este patrón modela un \texttt{for (i = 1; i <= 5; i++)}. La arista
+\texttt{D --> C} es la que materializa la repetición.
+
+\newpage
+
+% ==================================================================
+\section{Ejercicio 07 — Input Validation (Validación de Entrada)}
+% ==================================================================
+
+\textbf{Escenario:} Email de registro de usuario. Solicita email y
+valida formato; si es inválido, pedir de nuevo; si es válido, continuar
+y terminar.
+
+\textbf{Reglas:}
+\begin{itemize}
+  \item Nodos: \texttt{start}, \texttt{input}, \texttt{valid},
+        \texttt{invalid}, \texttt{end}.
+  \item Aristas: \texttt{A→B}, \texttt{B→C}, \texttt{C→D},
+        \texttt{D→B}, \texttt{C→E}.
+  \item Condiciones: \texttt{valid}, \texttt{invalid}.
+  \item Mínimo 5 aristas.
+\end{itemize}
+
+\begin{lstlisting}[style=jsstyle]
+const answer = `
+flowchart TD
+    A[start] --> B[input]
+    B --> C{valid}
+    C --|invalid|--> D[invalid]
+    D --> B
+    C --|valid|--> E[end]
+`;
+module.exports = answer.trim();
+\end{lstlisting}
+
+\begin{mermaid}
+flowchart TD
+    A[start] --> B[input]
+    B --> C{valid}
+    C --|invalid|--> D[invalid]
+    D --> B
+    C --|valid|--> E[end]
+\end{mermaid}
+
+\textbf{Explicación:}
+Un patrón muy común en programas reales: \textbf{validación con
+reintento}. Las etiquetas de condición ya no son \texttt{yes/no} sino
+\texttt{valid} e \texttt{invalid}, más semánticas:
+\begin{itemize}
+  \item \texttt{invalid} → email mal formado. El flujo va a
+        \texttt{D[invalid]} y luego \texttt{D --> B} regresa a pedir
+        el email de nuevo.
+  \item \texttt{valid} → email correcto. Sale del bucle y termina.
+\end{itemize}
+La diferencia con el While (ej. 05) es que aquí la condición del bucle
+está etiquetada con palabras específicas del dominio (\texttt{valid},
+\texttt{invalid}) y no con \texttt{yes/no}.
+
+\newpage
+
+% ==================================================================
+\section{Ejercicio 08 — Accumulator Pattern (Patrón Acumulador)}
+% ==================================================================
+
+\textbf{Escenario:} Total de carrito de compras. Lee precios
+repetidamente, acumula total y cuando el usuario termina, muestra total
+y finaliza.
+
+\textbf{Reglas:}
+\begin{itemize}
+  \item Nodos: \texttt{start}, \texttt{input}, \texttt{loop},
+        \texttt{output}, \texttt{end}.
+  \item Aristas: \texttt{A→B}, \texttt{B→C}, \texttt{C→B},
+        \texttt{C→D}, \texttt{D→E}.
+  \item Condiciones: \texttt{yes}, \texttt{no}.
+  \item Mínimo 5 aristas.
+\end{itemize}
+
+\begin{lstlisting}[style=jsstyle]
+const answer = `
+flowchart TD
+    A[start] --> B[input]
+    B --> C{loop}
+    C --|no|--> B
+    C --|yes|--> D[output]
+    D --> E[end]
+`;
+module.exports = answer.trim();
+\end{lstlisting}
+
+\begin{mermaid}
+flowchart TD
+    A[start] --> B[input]
+    B --> C{loop}
+    C --|no|--> B
+    C --|yes|--> D[output]
+    D --> E[end]
+\end{mermaid}
+
+\textbf{Explicación:}
+El patrón \textbf{acumulador} es la base de operaciones como sumar
+precios, contar elementos o concatenar strings. La estructura es la de
+un bucle while con un paso adicional de salida:
+\begin{enumerate}
+  \item \texttt{B[input]} — leer un precio (o la señal de "terminar").
+  \item \texttt{C{loop}} — ¿el usuario terminó?
+  \item \texttt{no} → volver a \texttt{B} (seguir acumulando).
+  \item \texttt{yes} → mostrar el total acumulado (\texttt{output}) y
+        terminar.
+\end{enumerate}
+
+En código se vería así:
+\begin{lstlisting}[style=jsstyle]
+let total = 0;
+let precio;
+while (precio !== "fin") {
+  precio = leerPrecio();
+  total += precio;
+}
+mostrarTotal(total);
+\end{lstlisting}
+
+\newpage
+
+% ==================================================================
+\section{Ejercicio 09 — Stateful Flow (Flujo con Estado)}
+% ==================================================================
+
+\textbf{Escenario:} Máquina de estados de torniquete. Empieza bloqueado;
+procesa eventos (moneda/empujar), actualiza estado y permite pasar solo
+en transiciones válidas.
+
+\textbf{Reglas:}
+\begin{itemize}
+  \item Nodos: \texttt{start}, \texttt{input}, \texttt{valid},
+        \texttt{output}, \texttt{end}.
+  \item Aristas: \texttt{A→B}, \texttt{B→C}, \texttt{C→B},
+        \texttt{C→D}, \texttt{D→E}.
+  \item Condiciones: \texttt{yes}, \texttt{no}.
+  \item Mínimo 5 aristas.
+\end{itemize}
+
+\begin{lstlisting}[style=jsstyle]
+const answer = `
+flowchart TD
+    A[start] --> B[input]
+    B --> C{valid}
+    C --|no|--> B
+    C --|yes|--> D[output]
+    D --> E[end]
+`;
+module.exports = answer.trim();
+\end{lstlisting}
+
+\begin{mermaid}
+flowchart TD
+    A[start] --> B[input]
+    B --> C{valid}
+    C --|no|--> B
+    C --|yes|--> D[output]
+    D --> E[end]
+\end{mermaid}
+
+\textbf{Explicación:}
+Este diagrama modela una \textbf{máquina de estados} simple. El nodo
+\texttt{C{valid}} representa la validación de la transición actual:
+\begin{itemize}
+  \item \texttt{B[input]} recibe el evento (moneda o empujón).
+  \item \texttt{C{valid}} verifica si la transición es válida según
+        el estado actual.
+  \item \texttt{no} → el evento es inválido (ej: empujar cuando está
+        bloqueado), se ignora y se vuelve a esperar input.
+  \item \texttt{yes} → transición válida (ej: moneda insertada),
+        produce \texttt{output} (abra paso) y termina.
+\end{itemize}
+
+Aunque la estructura es similar al acumulador, la semántica es
+diferente: aquí \texttt{C} representa una \textbf{guardia} que filtra
+eventos basada en el estado interno.
+
+\newpage
+
+% ==================================================================
+\section{Ejercicio 10 — Integrated Flow (Flujo Integrado)}
+% ==================================================================
+
+\textbf{Escenario:} Máquina expendedora. Valida selección, maneja bucle
+de entrada inválida, verifica pago, entrega producto y completa el
+flujo.
+
+\textbf{Reglas:}
+\begin{itemize}
+  \item Nodos: \texttt{start}, \texttt{input}, \texttt{valid},
+        \texttt{invalid}, \texttt{home}, \texttt{output}, \texttt{end}.
+  \item Aristas: \texttt{A→B}, \texttt{B→C}, \texttt{B→D},
+        \texttt{C→E}, \texttt{D→B}, \texttt{E→F}, \texttt{F→G}.
+  \item Condiciones: \texttt{yes}, \texttt{no}, \texttt{valid},
+        \texttt{invalid}.
+  \item Mínimo 7 aristas.
+\end{itemize}
+
+\begin{lstlisting}[style=jsstyle]
+const answer = `
+flowchart TD
+    A[start] --> B[input]
+    B --|valid|--> C[valid]
+    B --|invalid|--> D[invalid]
+    D --|no|--> B
+    C --|yes|--> E[home]
+    E --> F[output]
+    F --> G[end]
+`;
+module.exports = answer.trim();
+\end{lstlisting}
+
+\begin{mermaid}
+flowchart TD
+    A[start] --> B[input]
+    B --|valid|--> C[valid]
+    B --|invalid|--> D[invalid]
+    D --|no|--> B
+    C --|yes|--> E[home]
+    E --> F[output]
+    F --> G[end]
+\end{mermaid}
+
+\textbf{Explicación:}
+Es el ejercicio más completo porque \textbf{combina} múltiples patrones
+en un solo flujo:
+
+\begin{enumerate}
+  \item Desde \texttt{B[input]} salen \textbf{dos ramas etiquetadas}
+        con \texttt{valid} e \texttt{invalid} (multi-branch, como en
+        ej. 04).
+  \item \textbf{Rama inválida}: \texttt{D[invalid]} y luego
+        \texttt{no} → vuelve a \texttt{B} (bucle de validación,
+        como en ej. 05 y 07).
+  \item \textbf{Rama válida}: \texttt{C[valid]} → \texttt{yes} →
+        \texttt{E[home]} (transición de estado, como en ej. 09).
+  \item Luego el flujo continúa linealmente: \texttt{output} →
+        \texttt{end} (secuencia, como en ej. 01).
+\end{enumerate}
+
+Este diagrama integra: secuencia lineal, decisión binaria, múltiples
+ramas, bucle de validación y máquina de estados en un solo flujo
+coherente.
+
+\newpage
+
+% ==================================================================
+\section{Resumen de Patrones}
+% ==================================================================
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Ejercicio} & \textbf{Patrón principal} & \textbf{Elemento nuevo} \\
+\hline
+01 & Secuencia lineal & Flechas simples \\
+02 & If-else & Diamante + yes/no \\
+03 & Decisiones anidadas & Diamante dentro de rama \\
+04 & Multi-rama & Dos aristas desde un nodo \\
+05 & Bucle while & Arista que retrocede \\
+06 & Bucle for & Procesar y luego retroceder \\
+07 & Validación & Condiciones semánticas \\
+08 & Acumulador & Bucle + salida después \\
+09 & Máquina de estados & Guardia de eventos \\
+10 & Integrado & Todos los patrones juntos \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{10pt}
+
+\textbf{Consejos finales:}
+
+\begin{itemize}
+  \item Los IDs de nodos (\texttt{A}, \texttt{B}, \texttt{C}, \dots)
+        son obligatorios según la rúbrica de cada ejercicio.
+  \item Las etiquetas de las aristas se escriben con la sintaxis
+        \texttt{--|\emph{etiqueta}|-->}.
+  \item Los nodos pueden ser rectangulares (\texttt{[texto]}),
+        de decisión (\texttt{\{texto\}}) o redondeados (\texttt{(texto)}).
+  \item Para crear un bucle, la arista debe apuntar a un nodo
+        \textbf{anterior} en el flujo.
+\end{itemize}
+
+\end{document}

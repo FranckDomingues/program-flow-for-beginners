@@ -14,7 +14,9 @@ Mantén este formato:
 
 const answer = `
 flowchart TD
-    A[start] --> B[end]
+    A[start] --> B[step 1]
+    B --> C[step 2]
+    C --> D[end]
 `;
 
 module.exports = answer.trim();

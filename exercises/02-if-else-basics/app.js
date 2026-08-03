@@ -11,7 +11,12 @@ Manten esta forma: const answer = `...`; module.exports = answer.trim();
 
 const answer = `
 flowchart TD
-    A[start] --> B[end]
+    A[start] --> B[input]
+    B --> C{decision}
+    C --|yes|--> D[valid]
+    C --|no|--> E[invalid]
+    D --> F[end]
+    E --> F[end]
 `;
 
 // Do not modify this
